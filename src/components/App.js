@@ -2,14 +2,14 @@ import '../styles/App.css';
 
 import React, { Component } from 'react';
 import Header from './Header';
-import Sheet from './Sheet';
+import {Canvas} from './Canvas';
 
 class App extends Component {
   render() {
     return (
       <div className="App">
         <Header/>
-        <Sheet/>
+        <Canvas/>
       </div>
     );
   }

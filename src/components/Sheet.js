@@ -16,11 +16,13 @@ const ELEMENT_MAP = {
 
 const createTile = id => (
     <MosaicWindow createNode={ () => 'new' }
-                  title={id}>
+                  title={id}
+                  toolbarControls={[]}
+    >
         {ELEMENT_MAP[id]}
     </MosaicWindow>);
 
-export const Sheet = () => (
+export const Sheet = (props) => (
     <div className="sheet">
         <Mosaic
             renderTile={
