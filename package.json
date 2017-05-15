@@ -3,7 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@blueprintjs/core": "^1.17.1",
     "react": "^15.5.4",
+    "react-addons-css-transition-group": "^15.5.2",
     "react-dom": "^15.5.4",
     "react-mosaic-component": "^0.3.8"
   },
