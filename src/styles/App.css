@@ -1,20 +1,31 @@
-.App {
-  text-align: center;
-}
-
-.App-logo {
+.Header-logo {
   animation: App-logo-spin infinite 20s linear;
   height: 80px;
 }
 
-.App-header {
+.header {
+  text-align: left;
   background-color: #222;
-  height: 150px;
+  height: 100px;
+  width: 100%;
   padding: 20px;
+  position: fixed;
+  top: 0;
+}
+
+.header-title {
   color: white;
 }
 
-.App-intro {
+.sheet {
+  position: fixed;
+  width: 100%;
+  height : calc(100% - 100px);
+  top: 100px;
+  overflow: hidden;
+}
+
+.Header-intro {
   font-size: large;
 }
 
