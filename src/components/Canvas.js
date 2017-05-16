@@ -20,6 +20,8 @@ export class Canvas extends Component {
         this.sheetRefs = {};
     }
 
+    static displayName = "Canvas"
+
     renderSheet = (id) => {
         const onConfigPanelToggle = () => {
             this.onConfigPanelToggle(id);

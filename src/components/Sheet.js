@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {Mosaic, MosaicWindow, RemoveButton} from 'react-mosaic-component';
 import _cloneDeep from 'lodash/cloneDeep'
+import HideButton from './buttons/HideButton';
 import Rows from './Rows';
 import Columns from './Columns';
 import Grid from './Grid';
@@ -65,12 +66,14 @@ class Sheet extends Component {
         }
     }
 
+    static displayName = "Sheet";
+
     createToolbarControls(id) {
         if (id === 'grid') {
-            return [];
+            return [<HideButton key={ id }></HideButton>];
         }
 
-        return [<RemoveButton key="button1"></RemoveButton>];
+        return [<HideButton key={ id }></HideButton>];
     }
 
     createTile = (id) => {
