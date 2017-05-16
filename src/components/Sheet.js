@@ -1,5 +1,6 @@
-import React, {Component} from 'react';
-import {Mosaic, MosaicWindow, RemoveButton} from 'react-mosaic-component';
+import React, from 'react';
+import {Mosaic, MosaicWindow} from 'react-mosaic-component';
+import HideButton from './buttons/HideButton';
 import Rows from './Rows';
 import Columns from './Columns';
 import Grid from './Grid';
@@ -14,52 +15,59 @@ const ELEMENT_MAP = {
     configWheel: <ConfigWheel/>
 };
 
-const createToolbarControls = id => {
+const createToolbarControls = (id) => {
     if (id === 'grid') {
-        return [];
+        return [<HideButton></HideButton>];
     }
-    return [<RemoveButton></RemoveButton>];
+    return [<HideButton></HideButton>];
 };
 
-const createTile = id => (
-    <MosaicWindow createNode={ () => 'new' }
-                  title={id}
-                  toolbarControls={createToolbarControls(id)}
-    >
-        {ELEMENT_MAP[id]}
-    </MosaicWindow>);
+const createTile = (id) => {
+    return (
+        <MosaicWindow createNode={ () => 'new' }
+                      title={id}
+                      toolbarControls={createToolbarControls(id)}
+        >
+            {ELEMENT_MAP[id]}
+        </MosaicWindow>);
+}
 
-export const Sheet = (props) => (
-    <div className="sheet">
-        <Mosaic
-            renderTile={
-                createTile
-            }
+class Sheet extends React.Component {
 
-            initialValue={{
-                direction: 'row',
-                splitPercentage: 80,
-                first: {
-                    direction: 'column',
-                    splitPercentage: 10,
-                    first: 'slices',
+    render() {
+        return (<div className="sheet">
+            <Mosaic
+                renderTile={ (
+                    id => {
+                    return createTile(id);
+                })}
+
+                initialValue={{
+                    direction: 'row',
+                    splitPercentage: 80,
+                    first: {
+                        direction: 'column',
+                        splitPercentage: 10,
+                        first: 'slices',
+                        second: {
+                            direction: 'column',
+                            splitPercentage: 88.89,
+                            first: 'grid',
+                            second: 'rows'
+                        }
+                    },
                     second: {
                         direction: 'column',
-                        splitPercentage: 88.89,
-                        first: 'grid',
-                        second: 'rows'
+                        splitPercentage: 90,
+                        first: 'columns',
+                        second: 'configWheel'
                     }
-                },
-                second: {
-                    direction: 'column',
-                    splitPercentage: 90,
-                    first: 'columns',
-                    second: 'configWheel'
-                }
-            }}
-        />
-    </div>
+                }}
+            />
+        </div>);
+    }
+}
 
-);
+Sheet.displayName = "Sheet";
 
 export default Sheet;

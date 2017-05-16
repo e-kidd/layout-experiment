@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import {Mosaic} from 'react-mosaic-component';
 import Sheet from './Sheet';
 
