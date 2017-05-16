@@ -1,12 +1,12 @@
 .Header-logo {
   animation: App-logo-spin infinite 20s linear;
-  height: 80px;
+  height: 60px;
 }
 
 .header {
   text-align: left;
   background-color: #222;
-  height: 100px;
+  height: 60px;
   width: 100%;
   padding: 20px;
   position: fixed;
@@ -21,8 +21,8 @@
 .canvas {
   position: fixed;
   width: 100%;
-  height : calc(100% - 100px);
-  top: 100px;
+  height : calc(100% - 60px);
+  top: 60px;
   overflow: hidden;
 }
 
@@ -33,6 +33,23 @@
 
 .Header-intro {
   font-size: large;
+}
+
+.toolbar-button {
+  border-radius: 5%;
+  width: 60px;
+  height: 25px;
+  margin-top: 2px;
+  margin-right: 2px;
+  cursor: pointer;
+  border: 2px solid darkgray;
+  background-color: lightgray;
+  align-items: center;
+  justify-content: center;
+  margin-left: 5px;
+  transition: all .1s ease-in;
+  text-decoration: none;
+  display: flex;
 }
 
 @keyframes App-logo-spin {

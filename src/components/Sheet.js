@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Mosaic, MosaicWindow} from 'react-mosaic-component';
+import {Mosaic, MosaicWindow, RemoveButton} from 'react-mosaic-component';
 import Rows from './Rows';
 import Columns from './Columns';
 import Grid from './Grid';
@@ -14,10 +14,17 @@ const ELEMENT_MAP = {
     configWheel: <ConfigWheel/>
 };
 
+const createToolbarControls = id => {
+    if (id === 'grid') {
+        return [];
+    }
+    return [<RemoveButton></RemoveButton>];
+};
+
 const createTile = id => (
     <MosaicWindow createNode={ () => 'new' }
                   title={id}
-                  toolbarControls={[]}>
+                  toolbarControls={createToolbarControls(id)}>
         { ELEMENT_MAP[id] }
     </MosaicWindow>
 );
