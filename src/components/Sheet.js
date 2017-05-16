@@ -24,7 +24,8 @@ const createToolbarControls = id => {
 const createTile = id => (
     <MosaicWindow createNode={ () => 'new' }
                   title={id}
-                  toolbarControls={createToolbarControls(id)}>
+                  toolbarControls={createToolbarControls(id)}
+                  draggable={ false }>
         { ELEMENT_MAP[id] }
     </MosaicWindow>
 );
