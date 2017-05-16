@@ -17,7 +17,7 @@ const ELEMENT_MAP = {
 const createTile = id => (
     <MosaicWindow createNode={ () => 'new' }
                   title={id}
-                  toolbarControls={[]}
+                  toolbarControls={[<button className="toolbar-button">Button</button>]}
     >
         {ELEMENT_MAP[id]}
     </MosaicWindow>);

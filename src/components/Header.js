@@ -5,7 +5,7 @@ class Header extends Component {
     render() {
         return (
             <div className="header">
-                <h2 className="header-title">Layout Experiment</h2>
+                <h2 className="header-title">React Mosaic Layout Experiment</h2>
             </div>
         );
     }
