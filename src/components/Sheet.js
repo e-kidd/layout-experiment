@@ -1,5 +1,5 @@
 import React from 'react';
-import {Mosaic, MosaicWindow} from 'react-mosaic-component';
+import {Mosaic, MosaicWindow, ExpandButton, RemoveButton, SplitButton} from 'react-mosaic-component';
 import HideButton from './buttons/HideButton';
 import Rows from './Rows';
 import Columns from './Columns';
