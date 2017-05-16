@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {Mosaic, MosaicWindow, RemoveButton} from 'react-mosaic-component';
+import _cloneDeep from 'lodash/cloneDeep'
 import Rows from './Rows';
 import Columns from './Columns';
 import Grid from './Grid';
@@ -11,26 +12,11 @@ const ELEMENT_MAP = {
     columns: <Columns/>,
     slices: <Slices/>,
     grid: <Grid/>,
-    configWheel: <ConfigWheel/>
+    configWheel: <ConfigWheel/>,
+    filterPanel: () => (<div>Filter Panel</div>)
 };
 
-const createToolbarControls = id => {
-    if (id === 'grid') {
-        return [];
-    }
-    return [<RemoveButton></RemoveButton>];
-};
-
-const createTile = id => (
-    <MosaicWindow createNode={ () => 'new' }
-                  title={id}
-                  toolbarControls={createToolbarControls(id)}
-                  draggable={ false }>
-        { ELEMENT_MAP[id] }
-    </MosaicWindow>
-);
-
-const SHEET_CONFIG = {
+const INITIAL_LAYOUT = {
     direction: 'row',
     splitPercentage: 80,
     first: {
@@ -50,12 +36,82 @@ const SHEET_CONFIG = {
         first: 'columns',
         second: 'configWheel'
     }
+};
+
+const FILTER_PANEL_SUBTREE = {
+    direction: 'row',
+    splitPercentage: 70,
+    first: {
+        direction: 'column',
+        splitPercentage: 10,
+        first: 'slices',
+        second: {
+            direction: 'column',
+            splitPercentage: 88.89,
+            first: 'grid',
+            second: 'rows'
+        }
+    },
+    second: 'filterPanel'
 }
 
-export const Sheet = (props) => (
-    <div className="sheet">
-        <Mosaic renderTile={ createTile } initialValue={ SHEET_CONFIG } />
-    </div>
-);
+class Sheet extends Component {
+    constructor(){
+        super();
+
+        this.state = {
+            layout: INITIAL_LAYOUT,
+            showFilterTile: false
+        }
+    }
+
+    createToolbarControls(id) {
+        if (id === 'grid') {
+            return [];
+        }
+
+        return [<RemoveButton key="button1"></RemoveButton>];
+    }
+
+    createTile = (id) => {
+        return (
+            <MosaicWindow createNode={ () => 'new' }
+                          title={ id }
+                          toolbarControls={ this.createToolbarControls(id) }
+                          draggable={ false }>
+                { ELEMENT_MAP[id] }
+            </MosaicWindow>
+        );
+    }
+
+    toggleFilterPanel() {
+        let nextLayout = _cloneDeep(INITIAL_LAYOUT);
+
+        if (!this.state.showFilterTile) {
+            nextLayout.first = FILTER_PANEL_SUBTREE;
+        }
+
+        this.setState({
+            showFilterTile: !this.state.showFilterTile,
+            layout: Object.assign({}, nextLayout)
+        })
+    }
+
+    onLayoutChange = (nextLayout) => {
+        this.setState({
+            layout: nextLayout
+        });
+    }
+
+    render() {
+        return (
+            <div className="sheet">
+                <Mosaic renderTile={ this.createTile }
+                        value={ this.state.layout }
+                        onChange={ this.onLayoutChange } />
+            </div> 
+        )
+    }
+}
 
 export default Sheet;
