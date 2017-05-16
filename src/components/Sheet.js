@@ -39,9 +39,9 @@ const SHEET_CONFIG = {
 
 const createToolbarControls = (id) => {
     if (id === 'grid') {
-        return [<HideButton></HideButton>];
+        return [<HideButton key={ id }></HideButton>];
     }
-    return [<HideButton></HideButton>];
+    return [<HideButton key={ id }></HideButton>];
 };
 
 const createTile = (id) => {

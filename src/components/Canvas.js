@@ -13,7 +13,7 @@ const renderSheet = id => (
     <MosaicWindow createNode={ () => 'new' }
                   title={ id }
                   toolbarControls={[]}>
-        <Sheet id={ id } />
+        <Sheet id={ id }/>
     </MosaicWindow>
 );
 
