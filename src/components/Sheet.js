@@ -17,42 +17,37 @@ const ELEMENT_MAP = {
 const createTile = id => (
     <MosaicWindow createNode={ () => 'new' }
                   title={id}
-                  toolbarControls={[]}
-    >
-        {ELEMENT_MAP[id]}
-    </MosaicWindow>);
+                  toolbarControls={[]}>
+        { ELEMENT_MAP[id] }
+    </MosaicWindow>
+);
+
+const SHEET_CONFIG = {
+    direction: 'row',
+    splitPercentage: 80,
+    first: {
+        direction: 'column',
+        splitPercentage: 10,
+        first: 'slices',
+        second: {
+            direction: 'column',
+            splitPercentage: 88.89,
+            first: 'grid',
+            second: 'rows'
+        }
+    },
+    second: {
+        direction: 'column',
+        splitPercentage: 90,
+        first: 'columns',
+        second: 'configWheel'
+    }
+}
 
 export const Sheet = (props) => (
     <div className="sheet">
-        <Mosaic
-            renderTile={
-                createTile
-            }
-
-            initialValue={{
-                direction: 'row',
-                splitPercentage: 80,
-                first: {
-                    direction: 'column',
-                    splitPercentage: 10,
-                    first: 'slices',
-                    second: {
-                        direction: 'column',
-                        splitPercentage: 88.89,
-                        first: 'grid',
-                        second: 'rows'
-                    }
-                },
-                second: {
-                    direction: 'column',
-                    splitPercentage: 90,
-                    first: 'columns',
-                    second: 'configWheel'
-                }
-            }}
-        />
+        <Mosaic renderTile={ createTile } initialValue={ SHEET_CONFIG } />
     </div>
-
 );
 
 export default Sheet;
