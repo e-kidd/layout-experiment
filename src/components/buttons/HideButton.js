@@ -6,7 +6,7 @@ class HideButton extends React.Component {
     context = MosaicWindowContext;
 
     render() {
-        return createDefaultToolbarButton('Hide', 'pt-icon-add-column-right', this.hide.bind(this));
+        return createDefaultToolbarButton('Hide', 'pt-icon-minimize', this.hide.bind(this));
     }
 
     hide() {
