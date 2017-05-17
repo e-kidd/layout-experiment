@@ -1,21 +1,22 @@
-
 import React, {Component} from 'react';
-import {Mosaic, MosaicWindow} from 'react-mosaic-component';
-import _cloneDeep from 'lodash/cloneDeep'
-import HideButton from './buttons/HideButton';
+import { Mosaic, MosaicWindow, MosaicWindowContext } from 'react-mosaic-component';
+import _cloneDeep from 'lodash/cloneDeep';
+import _keys from 'lodash/keys';
+import _isNil from 'lodash/isNil';
+import _get from 'lodash/get';
+import RemoveButton from './buttons/RemoveButton';
 import Rows from './Rows';
 import Columns from './Columns';
 import Grid from './Grid';
 import Slices from './Slices';
-import ConfigWheel from './ConfigWheel';
+import FilterPanel from './FilterPanel';
 
-const ELEMENT_MAP = {
-    rows: <Rows/>,
-    columns: <Columns/>,
-    slices: <Slices/>,
-    grid: <Grid/>,
-    configWheel: <ConfigWheel/>,
-    filterPanel: () => (<div>Filter Panel</div>)
+const COMPONENT_MAP = {
+    rows: Rows,
+    columns: Columns,
+    slices: Slices,
+    grid: Grid,
+    filterPanel: FilterPanel
 };
 
 const INITIAL_LAYOUT = {
@@ -32,17 +33,12 @@ const INITIAL_LAYOUT = {
             second: 'rows'
         }
     },
-    second: {
-        direction: 'column',
-        splitPercentage: 90,
-        first: 'columns',
-        second: 'configWheel'
-    }
+    second: 'columns'
 };
 
 const FILTER_PANEL_SUBTREE = {
     direction: 'row',
-    splitPercentage: 70,
+    splitPercentage: 80,
     first: {
         direction: 'column',
         splitPercentage: 10,
@@ -58,23 +54,95 @@ const FILTER_PANEL_SUBTREE = {
 }
 
 class Sheet extends Component {
-    constructor(){
-        super();
+    constructor(props){
+        super(props);
 
         this.state = {
             layout: INITIAL_LAYOUT,
             showFilterTile: false
         }
+
+        this.elementMap = this.buildElementMap(props);
+        this.refEls = {};
     }
 
     static displayName = "Sheet";
+    static contextTypes = MosaicWindowContext;
+    context = MosaicWindowContext;
+
+    buildElementMap(props) {
+        return _keys(COMPONENT_MAP).reduce((sum, key) => {
+            var Component = COMPONENT_MAP[key];
+            sum[key] = (
+                <Component key={ `${key}-${this.props.id}` }
+                           ref={ el => this.setRef(el, key) } />
+            );
+            return sum;
+        }, {});
+    }
+
+    setRef(element, id) {
+        this.refEls[id] = element;
+    }
 
     createToolbarControls(id) {
-        if (id === 'grid') {
-            return [<HideButton key={ id }></HideButton>];
+        const controls = [];
+
+        if (id === 'filterPanel') {
+            controls.push(<RemoveButton key={ id }></RemoveButton>);
+        } else if (id === 'grid') {
+            const expandButton = (
+                <button onClick={ (e) => this.expandElement(id) }
+                        key={ `${id}-expand` }
+                        className="mosaic-default-control pt-button pt-minimal pt-icon-maximize" />
+            );
+
+            const restoreButton = (
+                <button onClick={ (e) => this.restoreElement() }
+                        key={ `${id}-restore` }
+                        className="mosaic-default-control pt-button pt-minimal pt-icon-minimize" />
+            );
+
+            controls.push(expandButton, restoreButton);
         }
 
-        return [<HideButton key={ id }></HideButton>];
+        return controls;
+    }
+
+    expandElement(id) {
+        // Only one element can be expanded at a time.
+        if (this.expandedElement === id) {
+            return;
+        }
+
+        this.expandedElement = id;
+        this.lastSafeLayout = this.state.layout;
+
+        const context = this.refEls[id].context;
+        const path = context.getMosaicPath();
+        const nextNode = _get(this.state.layout, path);
+        const update = {
+            path: [],
+            spec: {
+                splitPercentage: {
+                    $set: 100
+                },
+                first: {
+                    $set: nextNode
+                }
+            }
+        }
+
+        context.mosaicActions.updateTree([update]);
+    }
+
+    restoreElement() {
+        if (!_isNil(this.lastSafeLayout)) {
+            this.setState({ layout: this.lastSafeLayout });
+        }
+
+        this.expandedElement = null;
+        this.lastSafeLayout = null;
     }
 
     createTile = (id) => {
@@ -83,7 +151,7 @@ class Sheet extends Component {
                           title={ id }
                           toolbarControls={ this.createToolbarControls(id) }
                           draggable={ false }>
-                { ELEMENT_MAP[id] }
+                { this.elementMap[id] }
             </MosaicWindow>
         );
     }

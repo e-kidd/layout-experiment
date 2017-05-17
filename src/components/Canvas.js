@@ -26,14 +26,29 @@ export class Canvas extends Component {
         const onConfigPanelToggle = () => {
             this.onConfigPanelToggle(id);
         }
+
+        const onCogWheelClick = () => {
+            alert("Open the options menu");
+        }
+
         const additionalControls = [
-            <button onClick={ onConfigPanelToggle } key={ `${id}-configButton` }>Filter</button>
+            <button className="mosaic-default-control pt-button pt-minimal pt-icon-filter"
+                    onClick={ onConfigPanelToggle }
+                    key={ `${id}-configButton` }>
+                Filter
+            </button>
+        ];
+
+        const toolbarControls = [
+            <button className="mosaic-default-control pt-button pt-minimal pt-icon-cog"
+                    onClick={ onCogWheelClick }
+                    key={ `${id}-cogWheel` } />
         ];
 
         return (
             <MosaicWindow createNode={ () => 'new' }
                           title={ id }
-                          toolbarControls={[]}
+                          toolbarControls={ toolbarControls }
                           additionalControls={ additionalControls }>
                 <Sheet id={ id }
                        ref={ el => this.setSheetRef(el, id) } />
@@ -46,7 +61,6 @@ export class Canvas extends Component {
     }
 
     onConfigPanelToggle = (sheetId) => {
-        const nextState = this.state;
         const sheetEl = this.sheetRefs[sheetId];
 
         sheetEl.toggleFilterPanel();

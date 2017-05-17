@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { MosaicWindowContext } from 'react-mosaic-component';
 
-class Slices extends Component {
+class FilterPanel extends Component {
     static contextTypes = MosaicWindowContext;
     context = MosaicWindowContext;
 
@@ -14,4 +14,4 @@ class Slices extends Component {
     }
 }
 
-export default Slices;
+export default FilterPanel;
