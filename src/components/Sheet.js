@@ -145,7 +145,7 @@ class Sheet extends Component {
         this.lastSafeLayout = null;
     }
 
-    createTile = (id) => {
+    createTile(id) {
         return (
             <MosaicWindow createNode={ () => 'new' }
                           title={ id }
@@ -178,7 +178,7 @@ class Sheet extends Component {
     render() {
         return (
             <div className="sheet">
-                <Mosaic renderTile={ this.createTile }
+                <Mosaic renderTile={ this.createTile.bind(this) }
                         value={ this.state.layout }
                         onChange={ this.onLayoutChange } />
             </div> 
