@@ -1,9 +1,11 @@
 import React, {Component} from 'react';
 import { Mosaic, MosaicWindow, MosaicWindowContext } from 'react-mosaic-component';
+
 import _cloneDeep from 'lodash/cloneDeep';
 import _keys from 'lodash/keys';
 import _isNil from 'lodash/isNil';
 import _get from 'lodash/get';
+
 import RemoveButton from './buttons/RemoveButton';
 import Rows from './Rows';
 import Columns from './Columns';
@@ -89,7 +91,11 @@ class Sheet extends Component {
         const controls = [];
 
         if (id === 'filterPanel') {
-            controls.push(<RemoveButton key={ id }></RemoveButton>);
+            controls.push(
+                <button onClick={ (e) => this.toggleFilterPanel() }
+                        key={ `${id}-closeFilterPanel` }
+                        className="mosaic-default-control pt-button pt-minimal pt-icon-cross" />
+            );
         } else if (id === 'grid') {
             const expandButton = (
                 <button onClick={ (e) => this.expandElement(id) }

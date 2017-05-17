@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Mosaic, MosaicWindow } from 'react-mosaic-component';
+import _isNil from 'lodash/isNil';
 import Sheet from './Sheet';
 
 const INITIAL_VIEW_STATE = {
@@ -62,6 +63,10 @@ export class Canvas extends Component {
 
     onConfigPanelToggle = (sheetId) => {
         const sheetEl = this.sheetRefs[sheetId];
+
+        if (!_isNil(sheetEl.expandedElement)) {
+            return;
+        }
 
         sheetEl.toggleFilterPanel();
     }
