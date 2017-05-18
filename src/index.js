@@ -4,7 +4,7 @@ import App from './components/App';
 import '@blueprintjs/core/dist/blueprint.css';
 import 'react-mosaic-component/react-mosaic-component.css';
 import './styles/index.css';
-
+import './styles/App.css';
 
 ReactDOM.render(
   <App />,

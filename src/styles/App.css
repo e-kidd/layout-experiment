@@ -1,8 +1,3 @@
-.Header-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 60px;
-}
-
 .header {
   text-align: left;
   background-color: #222;
@@ -31,10 +26,6 @@
   height: 100%;
 }
 
-.Header-intro {
-  font-size: large;
-}
-
 .toolbar-button {
   border-radius: 5%;
   width: 60px;
@@ -52,8 +43,21 @@
   display: flex;
 }
 
+.mosaic-window_horizontal {
+  flex-direction: row;
+}
 
-@keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+.mosaic-window_horizontal .mosaic-window-title {
+  padding: 0 15px;
+}
+
+.mosaic-root .mosaic-window.mosaic-window_horizontal .mosaic-window-toolbar {
+  box-shadow: 1px 0 1px rgba(16, 22, 26, 0.2);
+  border-top-right-radius: 0;
+  height: 100%;
+}
+
+.mosaic-root .mosaic-window.mosaic-window_horizontal .mosaic-window-body {
+  height: auto;
+  border-bottom-left-radius: 0;
 }

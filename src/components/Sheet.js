@@ -1,12 +1,12 @@
 import React, {Component} from 'react';
 import { Mosaic, MosaicWindow, MosaicWindowContext } from 'react-mosaic-component';
+import classnames from 'classnames';
 
 import _cloneDeep from 'lodash/cloneDeep';
 import _keys from 'lodash/keys';
 import _isNil from 'lodash/isNil';
 import _get from 'lodash/get';
 
-import RemoveButton from './buttons/RemoveButton';
 import Rows from './Rows';
 import Columns from './Columns';
 import Grid from './Grid';
@@ -151,10 +151,17 @@ class Sheet extends Component {
         this.lastSafeLayout = null;
     }
 
+    getModuleClassName(id) {
+        return classnames({
+            'mosaic-window_horizontal': id === 'slices' || id === 'rows'
+        });
+    }
+
     createTile(id) {
         return (
             <MosaicWindow createNode={ () => 'new' }
                           title={ id }
+                          className={ this.getModuleClassName(id) }
                           toolbarControls={ this.createToolbarControls(id) }
                           draggable={ false }>
                 { this.elementMap[id] }
